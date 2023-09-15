@@ -1,0 +1,13 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module, forwardRef } from '@nestjs/common';
+import { InvoiceService } from './invoice.service';
+import { InvoiceResolver } from './invoice.resolver';
+import { InvoiceModel } from './invoice.model';
+import { CustomerModule } from 'src/customer/customer.module';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([InvoiceModel]), forwardRef(() => CustomerModule)],
+  providers: [InvoiceService, InvoiceResolver],
+  exports: [InvoiceService]
+})
+export class InvoiceModule {}
