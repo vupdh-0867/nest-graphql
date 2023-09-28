@@ -6,12 +6,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { CustomerModule } from './customer/customer.module';
 import { InvoiceModule } from './invoice/invoice.module';
+import { formatError, formatResponse } from './utils/utils';
+import { GraphQLFormattedError } from 'graphql';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: 'schema.gql',
       driver: ApolloDriver,
+      autoTransformHttpErrors: true,
+      context: ({ req, res }) => ({ req, res }),
+      formatError: (formattedError: GraphQLFormattedError, _error: unknown) => formatError(formattedError),
+      stringifyResult: (res) => formatResponse(res)
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,7 +30,7 @@ import { InvoiceModule } from './invoice/invoice.module';
       synchronize: false,
     }),
     CustomerModule,
-    InvoiceModule
+    InvoiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

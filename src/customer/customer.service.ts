@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CustomerDTO } from './customer.dto';
-import { CustomerModel } from 'src/invoice/customer.model';
+import { CustomerModel } from 'src/customer/customer.model';
+import { CreateCustomerDto } from './dto/create-customer.dto';
 
 @Injectable()
 export class CustomerService {
-    constructor(
-        @InjectRepository(CustomerModel)
-        private customerRepository: Repository<CustomerModel>,
-      ) {}
+  constructor(
+    @InjectRepository(CustomerModel)
+    private customerRepository: Repository<CustomerModel>,
+  ) {}
 
-      create(details: CustomerDTO): Promise<CustomerModel>{
-          return this.customerRepository.save(details);
-      }
+  create(details: CreateCustomerDto): Promise<CustomerModel> {
+    return this.customerRepository.save(details);
+  }
 
-      findAll(): Promise<CustomerModel[]> {
-        return this.customerRepository.find();
-      }
+  findAll(): Promise<CustomerModel[]> {
+    return this.customerRepository.find();
+  }
 
-      findOne(id: string): Promise<CustomerModel> {
-        return this.customerRepository.findOneBy({id});
-      }
+  findOne(id: string): Promise<CustomerModel> {
+    return this.customerRepository.findOneBy({ id });
+  }
 }

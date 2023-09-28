@@ -3,12 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module, forwardRef } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CustomerResolver } from './customer.resolver';
-import { CustomerModel } from 'src/invoice/customer.model';
-
+import { CustomerModel } from 'src/customer/customer.model';
 
 @Module({
-  imports: [forwardRef(() => InvoiceModule), TypeOrmModule.forFeature([CustomerModel])],
+  imports: [
+    forwardRef(() => InvoiceModule),
+    TypeOrmModule.forFeature([CustomerModel]),
+  ],
   providers: [CustomerService, CustomerResolver],
-  exports: [CustomerService]
+  exports: [CustomerService],
 })
 export class CustomerModule {}
