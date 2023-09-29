@@ -6,8 +6,11 @@ import { InvoiceModel } from './invoice.model';
 import { CustomerModule } from 'src/customer/customer.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InvoiceModel]), forwardRef(() => CustomerModule)],
+  imports: [
+    TypeOrmModule.forFeature([InvoiceModel]),
+    forwardRef(() => CustomerModule),
+  ],
   providers: [InvoiceService, InvoiceResolver],
-  exports: [InvoiceService]
+  exports: [InvoiceService],
 })
 export class InvoiceModule {}
